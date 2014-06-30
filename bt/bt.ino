@@ -1,35 +1,29 @@
 #include <SoftwareSerial.h>
- 
-SoftwareSerial mySerial(3, 2); //RX,TX
- 
-String tmp; 
- 
+
+SoftwareSerial BLE(10, 9); // RX, TX
+
+String tmp="";
+
+
 void setup() {
   Serial.begin(9600);
-  mySerial.setTimeout(100);
-  mySerial.begin(9600); 
-  Serial.println("Arduino -Test");
+  BLE.begin(9600); 
 };
- 
+
 void loop() {
-//  Serial.println("LOOP");
- 
-  while (mySerial.available() > 0)  {
-    tmp += char(mySerial.read());
-    Serial.println(tmp);
+
+  while (BLE.available() > 0)  {
+    tmp += char(BLE.read());
     delay(2);
   }
- 
+
   if(tmp.length() > 0) {
     Serial.println(tmp);
     tmp = "";
   }
- 
+
   if (Serial.available()) {
-    Serial.println("GO IN TO WRITE THE SERIAL");
-    mySerial.write(Serial.read());
-  }
-  else {
-//    mySerial.write("AT");
+    BLE.write(Serial.read());
   }
 }
+
